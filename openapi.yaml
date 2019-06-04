@@ -1,0 +1,96 @@
+openapi: 3.0.2
+
+info: 
+  title: i-sense flu backend
+  description: Backend API for the i-sense flu web app
+  version: 3.0.0
+  
+paths:
+  /:
+    get:
+      tags:
+        - query-model
+        - default-model
+      summary: Returns the scores for the default flu model
+      responses:
+        '503':
+          description: Resource unavailable
+  /plink:
+    get:
+      tags:
+        - query-model
+      summary: Returns the scores and metadata for one or more models in a specific time window
+      parameters:
+        - $ref: '#/components/parameters/idRef'
+          required: true
+        - $ref: '#/components/parameters/startDateRef'
+          required: true
+        - $ref: '#/components/parameters/endDateRef'
+          required: true
+        - $ref: '#/components/parameters/resolutionRef'
+          required: true
+        - $ref: '#/components/parameters/smoothingRef'
+          required: true
+      responses:
+        '503':
+          description: Resource unavailable
+  /scores:
+    get:
+      tags:
+        - query-scores
+      summary: Returns the scores for one or more models in a specific time window
+      parameters:
+        - $ref: '#/components/parameters/idRef'
+          required: true
+        - $ref: '#/components/parameters/startDateRef'
+          required: true
+        - $ref: '#/components/parameters/endDateRef'
+          required: true
+        - $ref: '#/components/parameters/resolutionRef'
+        - $ref: '#/components/parameters/smoothingRef'
+      responses:
+        '503':
+          description: Resource unavailable
+
+components:
+  parameters:
+    endDateRef:
+      name: end
+      in: query
+      description: End date of requested time period, inclusive. In the format YYYY-MM-DD
+      schema:
+        type: string
+        format: date  
+    idRef:
+      name: id
+      in: query
+      description: The ids of the flu model to get the scores for
+      schema:
+        type: array
+        items:
+          type: integer
+          format: int64
+          minimum: 1
+      style: form
+      explode: true
+    resolutionRef:
+      name: resolution
+      in: query
+      description: The density of the data points returned, either day or week
+      schema:
+        type: string
+        enum: [day, week]
+    smoothingRef:
+      name: smoothing
+      in: query
+      description: Number of days to smooth data over using a moving average filter
+      schema:
+        type: integer
+        enum: [0, 3, 5, 7]
+    startDateRef:
+      name: start
+      in: query
+      description: Start date of requested time period, inclusive. In the format YYYY-MM-DD
+      schema:
+        type: string
+        format: date
