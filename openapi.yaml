@@ -29,15 +29,15 @@ paths:
         - query-model
       summary: Returns the scores and metadata for one or more models in a specific time window
       parameters:
-        - $ref: '#/components/parameters/idRef'
+        - $ref: 'components/parameters.yaml#/idRef'
           required: true
-        - $ref: '#/components/parameters/startDateRef'
+        - $ref: 'components/parameters.yaml#/startDateRef'
           required: true
-        - $ref: '#/components/parameters/endDateRef'
+        - $ref: 'components/parameters.yaml#/endDateRef'
           required: true
-        - $ref: '#/components/parameters/resolutionRef'
+        - $ref: 'components/parameters.yaml#/resolutionRef'
           required: true
-        - $ref: '#/components/parameters/smoothingRef'
+        - $ref: 'components/parameters.yaml#/smoothingRef'
           required: true
       responses:
         '503':
@@ -48,14 +48,14 @@ paths:
         - query-scores
       summary: Returns the scores for one or more models in a specific time window
       parameters:
-        - $ref: '#/components/parameters/idRef'
+        - $ref: 'components/parameters.yaml#/idRef'
           required: true
-        - $ref: '#/components/parameters/startDateRef'
+        - $ref: 'components/parameters.yaml#/startDateRef'
           required: true
-        - $ref: '#/components/parameters/endDateRef'
+        - $ref: 'components/parameters.yaml#/endDateRef'
           required: true
-        - $ref: '#/components/parameters/resolutionRef'
-        - $ref: '#/components/parameters/smoothingRef'
+        - $ref: 'components/parameters.yaml#/resolutionRef'
+        - $ref: 'components/parameters.yaml#/smoothingRef'
       responses:
         '503':
           description: Resource unavailable
@@ -65,67 +65,17 @@ paths:
         - query-model
       summary: Returns the scores and metadata for a model linked from Twitter
       parameters:
-        - $ref: '#/components/parameters/legacyIdRef'
+        - $ref: 'components/parameters.yaml#/legacyIdRef'
           required: true
-        - $ref: '#/components/parameters/startDateRef'
+        - $ref: 'components/parameters.yaml#/startDateRef'
           required: true
-        - $ref: '#/components/parameters/endDateRef'
+        - $ref: 'components/parameters.yaml#/endDateRef'
           required: true
-        - $ref: '#/components/parameters/resolutionRef'
+        - $ref: 'components/parameters.yaml#/resolutionRef'
           required: true
-        - $ref: '#/components/parameters/smoothingRef'
+        - $ref: 'components/parameters.yaml#/smoothingRef'
           required: true
       responses:
         '503':
           description: Resource unavailable
-
-components:
-  parameters:
-    endDateRef:
-      name: end
-      in: query
-      description: End date of requested time period, inclusive. In the format YYYY-MM-DD
-      schema:
-        type: string
-        format: date  
-    idRef:
-      name: id
-      in: query
-      description: The ids of the flu model to get the scores for
-      schema:
-        type: array
-        items:
-          type: integer
-          format: int64
-          minimum: 1
-      style: form
-      explode: true
-    legacyIdRef:
-      name: model_regions-0
-      in: query
-      description: The id of the flu model to get the scores for (legacy models)
-      schema:
-        type: string
-        enum: [7-e]
-      deprecated: true
-    resolutionRef:
-      name: resolution
-      in: query
-      description: The density of the data points returned, either day or week
-      schema:
-        type: string
-        enum: [day, week]
-    smoothingRef:
-      name: smoothing
-      in: query
-      description: Number of days to smooth data over using a moving average filter
-      schema:
-        type: integer
-        enum: [0, 3, 5, 7]
-    startDateRef:
-      name: start
-      in: query
-      description: Start date of requested time period, inclusive. In the format YYYY-MM-DD
-      schema:
-        type: string
-        format: date
+          
