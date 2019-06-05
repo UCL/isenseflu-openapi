@@ -13,6 +13,8 @@ paths:
         - default-model
       summary: Returns the scores for the default flu model
       responses:
+        '204':
+          description: No public model scores available
         '503':
           description: Resource unavailable
   /models:
