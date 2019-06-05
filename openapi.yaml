@@ -13,6 +13,20 @@ paths:
         - default-model
       summary: Returns the scores for the default flu model
       responses:
+        '200':
+          description: A list of model scores containing data for the last 30 days available
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Model scores and metadata
+                properties:
+                  model_list:
+                    $ref: 'components/schemas.yaml#/modelListItem'
+                  rate_thresholds:
+                    $ref: 'components/schemas.yaml#/rateThresholds'
+                  modeldata:
+                    $ref: 'components/schemas.yaml#/modelInfo'
         '204':
           description: No public model scores available
         '503':

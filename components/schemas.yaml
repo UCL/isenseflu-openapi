@@ -1,0 +1,98 @@
+id:
+  type: integer
+  format: int32
+  description: The id of the model
+
+modelInfo:
+  type: object
+  properties:
+    id:
+      $ref: '#/id'
+    name:
+      $ref: '#/name'
+    has_confidence_interval:
+      type: boolean
+      description: Whether the model scores include a confidence interval
+      default: false
+    display_model:
+      type: boolean
+      description: Whether the model should be displayed automatically
+      default: false
+    start_date:
+      type: string
+      format: date
+      description: Start date of requested time period, inclusive. In the format YYYY-MM-DD
+    end_date:
+      type: string
+      format: date
+      description: End date of requested time period, inclusive. In the format YYYY-MM-DD
+    average_score:
+      type: number
+      format: float
+      description: Average (mean) score value 
+    data_points:
+      type: array
+      description: Model scores
+      items:
+        $ref: '#/modelScores'
+        
+modelListItem:
+  type: object
+  properties:
+    id:
+      $ref: '#/id'
+    name:
+      $ref: '#/name'
+
+modelScores:
+  type: object
+  properties:
+    score_date:
+      type: string
+      format: date
+      description: Date of the data point
+    score_value:
+      type: number
+      format: float
+      description: Score value
+    confidence_interval_lower:
+      type: number
+      format: float
+      description: Lower bound confidence interval
+    confidence_interval_upper:
+      type: number
+      format: float
+      description: Upper bound confidence interval
+
+name:
+  type: string
+  description: The name of the model
+
+rateThresholdItem:
+  type: object
+  properties:
+    label:
+      type: String
+      enum:
+        - Low epidemic rate
+        - Medium epidemic rate
+        - High epidemic rate
+        - Very high epidemic rate
+    value:
+      type: number
+      format: float
+
+rateThresholds:
+  type: object
+  items:
+    type: object
+    properties:
+      low_value:
+        $ref: '#/rateThresholdItem'
+      medium_value:
+        $ref: '#/rateThresholdItem'
+      high_value:
+        $ref: '#/rateThresholdItem'
+      very_high_value:
+        $ref: '#/rateThresholdItem'
+    
