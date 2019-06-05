@@ -15,6 +15,14 @@ paths:
       responses:
         '503':
           description: Resource unavailable
+  /models:
+    get:
+      tags:
+        - query-model
+      summary: Returns a list of public models
+      responses:
+        '503':
+          description: Resource unavailable
   /plink:
     get:
       tags:
@@ -51,6 +59,25 @@ paths:
       responses:
         '503':
           description: Resource unavailable
+  /twlink:
+    get:
+      tags:
+        - query-model
+      summary: Returns the scores and metadata for a model linked from Twitter
+      parameters:
+        - $ref: '#/components/parameters/legacyIdRef'
+          required: true
+        - $ref: '#/components/parameters/startDateRef'
+          required: true
+        - $ref: '#/components/parameters/endDateRef'
+          required: true
+        - $ref: '#/components/parameters/resolutionRef'
+          required: true
+        - $ref: '#/components/parameters/smoothingRef'
+          required: true
+      responses:
+        '503':
+          description: Resource unavailable
 
 components:
   parameters:
@@ -73,6 +100,14 @@ components:
           minimum: 1
       style: form
       explode: true
+    legacyIdRef:
+      name: model_regions-0
+      in: query
+      description: The id of the flu model to get the scores for (legacy models)
+      schema:
+        type: string
+        enum: [7-e]
+      deprecated: true
     resolutionRef:
       name: resolution
       in: query
