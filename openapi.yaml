@@ -22,6 +22,8 @@ paths:
       responses:
         '200':
           $ref: 'components/responses.yaml#/modelList'
+        '404':
+          description: No public models available
         '503':
           description: Resource unavailable
   /plink:
@@ -41,6 +43,8 @@ paths:
       responses:
         '200':
           $ref: 'components/responses.yaml#/modelsAndMetadata'
+        '404':
+          description: Not found. Model data no longer available
         '503':
           description: Resource unavailable
   /scores:
@@ -56,6 +60,8 @@ paths:
         - $ref: 'components/parameters.yaml#/resolutionRef'
         - $ref: 'components/parameters.yaml#/smoothingRef'
       responses:
+        '404':
+          description: No scores found
         '503':
           description: Resource unavailable
   /twlink:
@@ -75,6 +81,8 @@ paths:
       responses:
         '200':
           $ref: 'components/responses.yaml#/modelsAndMetadata'
+        '404':
+          description: Not found. Model data no longer available
         '503':
           description: Resource unavailable
           
