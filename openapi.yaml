@@ -27,7 +27,7 @@ paths:
                     $ref: 'components/schemas.yaml#/rateThresholds'
                   modeldata:
                     $ref: 'components/schemas.yaml#/modelInfo'
-        '204':
+        '404':
           description: No public model scores available
         '503':
           description: Resource unavailable
