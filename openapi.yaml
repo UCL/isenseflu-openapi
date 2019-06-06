@@ -37,6 +37,14 @@ paths:
         - query-model
       summary: Returns a list of public models
       responses:
+        '200':
+          description: A list of public models
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'components/schemas.yaml#modelListItem'
         '503':
           description: Resource unavailable
   /plink:
