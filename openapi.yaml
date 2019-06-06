@@ -60,6 +60,8 @@ paths:
         - $ref: 'components/parameters.yaml#/resolutionRef'
         - $ref: 'components/parameters.yaml#/smoothingRef'
       responses:
+        '200':
+          $ref: 'components/responses.yaml#/modelDataAndScores'
         '404':
           description: No scores found
         '503':

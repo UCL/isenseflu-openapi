@@ -17,6 +17,18 @@ modelsAndMetadata:
             items:
               $ref: 'schemas.yaml#/modelInfo'
 
+modelDataAndScores:
+  description: A list of model scores between start and end date
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          modeldata:
+            type: array
+            items:
+              $ref: 'schemas.yaml#/modelInfo'
+
 modelList:
   description: A list of public models
   content:
