@@ -6,16 +6,16 @@ Specification: http://spec.openapis.org/oas/v3.0.2
 
 ## Validation
 
-Use the [Swagger CLI](https://apidevtools.org/swagger-parser/) tool for validation. Install with `npm`:
+Use the [Open API Enforcer CLI](https://www.npmjs.com/package/openapi-enforcer-cli/) tool for validation. Install with `npm`:
 
 ```
-npm install -g swagger-parser
+npm install -g openapi-enforcer-cli
 ```
 
 Validate the definitions file:
 
 ```
-swagger-cli validate openapi.yaml
+openapi-enforcer validate openapi.yaml
 ```
 
 ## Copyright
