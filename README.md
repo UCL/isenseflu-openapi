@@ -22,7 +22,7 @@ swagger-cli validate openapi.yaml
 
 &copy; 2019 UCL ([https://www.ucl.ac.uk](https://www.ucl.ac.uk)).
 
-## License
+## License
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
