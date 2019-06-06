@@ -3,7 +3,7 @@ openapi: 3.0.2
 info: 
   title: i-sense flu backend
   description: Backend API for the i-sense flu web app
-  version: 3.0.0
+  version: 2.0
   
 paths:
   /:
