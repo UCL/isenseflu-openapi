@@ -26,7 +26,9 @@ paths:
                   rate_thresholds:
                     $ref: 'components/schemas.yaml#/rateThresholds'
                   modeldata:
-                    $ref: 'components/schemas.yaml#/modelInfo'
+                    type: array
+                    items:
+                      $ref: 'components/schemas.yaml#/modelInfo'
         '404':
           description: No public model scores available
         '503':
@@ -44,7 +46,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: 'components/schemas.yaml#modelListItem'
+                  $ref: 'components/schemas.yaml#/modelListItem'
         '503':
           description: Resource unavailable
   /plink:
