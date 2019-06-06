@@ -72,7 +72,7 @@ rateThresholdItem:
   type: object
   properties:
     label:
-      type: String
+      type: string
       enum:
         - Low epidemic rate
         - Medium epidemic rate
@@ -84,15 +84,16 @@ rateThresholdItem:
 
 rateThresholds:
   type: object
-  items:
-    type: object
-    properties:
-      low_value:
-        $ref: '#/rateThresholdItem'
-      medium_value:
-        $ref: '#/rateThresholdItem'
-      high_value:
-        $ref: '#/rateThresholdItem'
-      very_high_value:
-        $ref: '#/rateThresholdItem'
+  properties:
+    rate_thresholds:
+      type: object
+      properties:
+        low_value:
+          $ref: '#/rateThresholdItem'
+        medium_value:
+          $ref: '#/rateThresholdItem'
+        high_value:
+          $ref: '#/rateThresholdItem'
+        very_high_value:
+          $ref: '#/rateThresholdItem'
     
