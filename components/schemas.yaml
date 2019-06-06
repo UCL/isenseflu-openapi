@@ -68,20 +68,6 @@ name:
   type: string
   description: The name of the model
 
-rateThresholdItem:
-  type: object
-  properties:
-    label:
-      type: string
-      enum:
-        - Low epidemic rate
-        - Medium epidemic rate
-        - High epidemic rate
-        - Very high epidemic rate
-    value:
-      type: number
-      format: float
-
 rateThresholds:
   type: object
   properties:
@@ -89,11 +75,39 @@ rateThresholds:
       type: object
       properties:
         low_value:
-          $ref: '#/rateThresholdItem'
+          type: object
+          properties:
+            label:
+              type: string
+              enum: [Low epidemic rate]
+            value:
+              type: number
+              format: float
         medium_value:
-          $ref: '#/rateThresholdItem'
+          type: object
+          properties:
+            label:
+              type: string
+              enum: [Medium epidemic rate]
+            value:
+              type: number
+              format: float
         high_value:
-          $ref: '#/rateThresholdItem'
+          type: object
+          properties:
+            label:
+              type: string
+              enum: [High epidemic rate]
+            value:
+              type: number
+              format: float
         very_high_value:
-          $ref: '#/rateThresholdItem'
+          type: object
+          properties:
+            label:
+              type: string
+              enum: [Very high epidemic rate]
+            value:
+              type: number
+              format: float
     
