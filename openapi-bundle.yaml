@@ -1,0 +1,619 @@
+openapi: 3.0.2
+info:
+  title: i-sense flu backend
+  description: Backend API for the i-sense flu web app
+  version: v1.0
+paths:
+  /:
+    get:
+      summary: Returns the scores for the default flu model
+      responses:
+        '200':
+          description: A list of model scores containing data for the last 30 days available
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Model scores and metadata
+                properties:
+                  model_list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          format: int32
+                          description: The id of the model
+                        name:
+                          type: string
+                          description: The name of the model
+                  rate_thresholds:
+                    type: object
+                    properties:
+                      rate_thresholds:
+                        type: object
+                        properties:
+                          low_value:
+                            type: object
+                            properties:
+                              label:
+                                type: string
+                                enum:
+                                  - Low epidemic rate
+                              value:
+                                type: number
+                                format: float
+                          medium_value:
+                            type: object
+                            properties:
+                              label:
+                                type: string
+                                enum:
+                                  - Medium epidemic rate
+                              value:
+                                type: number
+                                format: float
+                          high_value:
+                            type: object
+                            properties:
+                              label:
+                                type: string
+                                enum:
+                                  - High epidemic rate
+                              value:
+                                type: number
+                                format: float
+                          very_high_value:
+                            type: object
+                            properties:
+                              label:
+                                type: string
+                                enum:
+                                  - Very high epidemic rate
+                              value:
+                                type: number
+                                format: float
+                  modeldata:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          format: int32
+                          description: The id of the model
+                        name:
+                          type: string
+                          description: The name of the model
+                        has_confidence_interval:
+                          type: boolean
+                          description: Whether the model scores include a confidence interval
+                          default: false
+                        display_model:
+                          type: boolean
+                          description: Whether the model should be displayed automatically
+                          default: false
+                        start_date:
+                          type: string
+                          format: date
+                          description: 'Start date of requested time period, inclusive. In the format YYYY-MM-DD'
+                        end_date:
+                          type: string
+                          format: date
+                          description: 'End date of requested time period, inclusive. In the format YYYY-MM-DD'
+                        average_score:
+                          type: number
+                          format: float
+                          description: Average (mean) score value
+                        data_points:
+                          type: array
+                          description: Model scores
+                          items:
+                            type: object
+                            properties:
+                              score_date:
+                                type: string
+                                format: date
+                                description: Date of the data point
+                              score_value:
+                                type: number
+                                format: float
+                                description: Score value
+                              confidence_interval_lower:
+                                type: number
+                                format: float
+                                description: Lower bound confidence interval
+                              confidence_interval_upper:
+                                type: number
+                                format: float
+                                description: Upper bound confidence interval
+        '404':
+          description: No public model scores available
+        '503':
+          description: Resource unavailable
+  /models:
+    get:
+      summary: Returns a list of public models
+      responses:
+        '200':
+          description: A list of public models
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      format: int32
+                      description: The id of the model
+                    name:
+                      type: string
+                      description: The name of the model
+        '404':
+          description: No public models available
+        '503':
+          description: Resource unavailable
+  /plink:
+    get:
+      summary: Returns the scores and metadata for one or more models in a specific time window
+      parameters:
+        - required: true
+          name: id
+          in: query
+          description: The ids of the flu model to get the scores for
+          schema:
+            type: array
+            items:
+              type: integer
+              format: int64
+              minimum: 1
+          style: form
+          explode: true
+        - required: true
+          name: start
+          in: query
+          description: 'Start date of requested time period, inclusive. In the format YYYY-MM-DD'
+          schema:
+            type: string
+            format: date
+        - required: true
+          name: end
+          in: query
+          description: 'End date of requested time period, inclusive. In the format YYYY-MM-DD'
+          schema:
+            type: string
+            format: date
+        - required: true
+          name: resolution
+          in: query
+          description: 'The density of the data points returned, either day or week'
+          schema:
+            type: string
+            enum:
+              - day
+              - week
+        - required: true
+          name: smoothing
+          in: query
+          description: Number of days to smooth data over using a moving average filter
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 3
+              - 5
+              - 7
+      responses:
+        '200':
+          description: A list of model scores containing data for the last 30 days available
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Model scores and metadata
+                properties:
+                  model_list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          format: int32
+                          description: The id of the model
+                        name:
+                          type: string
+                          description: The name of the model
+                  rate_thresholds:
+                    type: object
+                    properties:
+                      rate_thresholds:
+                        type: object
+                        properties:
+                          low_value:
+                            type: object
+                            properties:
+                              label:
+                                type: string
+                                enum:
+                                  - Low epidemic rate
+                              value:
+                                type: number
+                                format: float
+                          medium_value:
+                            type: object
+                            properties:
+                              label:
+                                type: string
+                                enum:
+                                  - Medium epidemic rate
+                              value:
+                                type: number
+                                format: float
+                          high_value:
+                            type: object
+                            properties:
+                              label:
+                                type: string
+                                enum:
+                                  - High epidemic rate
+                              value:
+                                type: number
+                                format: float
+                          very_high_value:
+                            type: object
+                            properties:
+                              label:
+                                type: string
+                                enum:
+                                  - Very high epidemic rate
+                              value:
+                                type: number
+                                format: float
+                  modeldata:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          format: int32
+                          description: The id of the model
+                        name:
+                          type: string
+                          description: The name of the model
+                        has_confidence_interval:
+                          type: boolean
+                          description: Whether the model scores include a confidence interval
+                          default: false
+                        display_model:
+                          type: boolean
+                          description: Whether the model should be displayed automatically
+                          default: false
+                        start_date:
+                          type: string
+                          format: date
+                          description: 'Start date of requested time period, inclusive. In the format YYYY-MM-DD'
+                        end_date:
+                          type: string
+                          format: date
+                          description: 'End date of requested time period, inclusive. In the format YYYY-MM-DD'
+                        average_score:
+                          type: number
+                          format: float
+                          description: Average (mean) score value
+                        data_points:
+                          type: array
+                          description: Model scores
+                          items:
+                            type: object
+                            properties:
+                              score_date:
+                                type: string
+                                format: date
+                                description: Date of the data point
+                              score_value:
+                                type: number
+                                format: float
+                                description: Score value
+                              confidence_interval_lower:
+                                type: number
+                                format: float
+                                description: Lower bound confidence interval
+                              confidence_interval_upper:
+                                type: number
+                                format: float
+                                description: Upper bound confidence interval
+        '404':
+          description: Not found. Model data no longer available
+        '503':
+          description: Resource unavailable
+  /scores:
+    get:
+      summary: Returns the scores for one or more models in a specific time window
+      parameters:
+        - required: true
+          name: id
+          in: query
+          description: The ids of the flu model to get the scores for
+          schema:
+            type: array
+            items:
+              type: integer
+              format: int64
+              minimum: 1
+          style: form
+          explode: true
+        - required: true
+          name: start
+          in: query
+          description: 'Start date of requested time period, inclusive. In the format YYYY-MM-DD'
+          schema:
+            type: string
+            format: date
+        - required: true
+          name: end
+          in: query
+          description: 'End date of requested time period, inclusive. In the format YYYY-MM-DD'
+          schema:
+            type: string
+            format: date
+        - name: resolution
+          in: query
+          description: 'The density of the data points returned, either day or week'
+          schema:
+            type: string
+            enum:
+              - day
+              - week
+        - name: smoothing
+          in: query
+          description: Number of days to smooth data over using a moving average filter
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 3
+              - 5
+              - 7
+      responses:
+        '200':
+          description: A list of model scores between start and end date
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  modeldata:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          format: int32
+                          description: The id of the model
+                        name:
+                          type: string
+                          description: The name of the model
+                        has_confidence_interval:
+                          type: boolean
+                          description: Whether the model scores include a confidence interval
+                          default: false
+                        display_model:
+                          type: boolean
+                          description: Whether the model should be displayed automatically
+                          default: false
+                        start_date:
+                          type: string
+                          format: date
+                          description: 'Start date of requested time period, inclusive. In the format YYYY-MM-DD'
+                        end_date:
+                          type: string
+                          format: date
+                          description: 'End date of requested time period, inclusive. In the format YYYY-MM-DD'
+                        average_score:
+                          type: number
+                          format: float
+                          description: Average (mean) score value
+                        data_points:
+                          type: array
+                          description: Model scores
+                          items:
+                            type: object
+                            properties:
+                              score_date:
+                                type: string
+                                format: date
+                                description: Date of the data point
+                              score_value:
+                                type: number
+                                format: float
+                                description: Score value
+                              confidence_interval_lower:
+                                type: number
+                                format: float
+                                description: Lower bound confidence interval
+                              confidence_interval_upper:
+                                type: number
+                                format: float
+                                description: Upper bound confidence interval
+        '404':
+          description: No scores found
+        '503':
+          description: Resource unavailable
+  /twlink:
+    get:
+      summary: Returns the scores and metadata for a model linked from Twitter
+      parameters:
+        - required: true
+          name: model_regions-0
+          in: query
+          description: The id of the flu model to get the scores for (legacy models)
+          schema:
+            type: string
+            enum:
+              - 7-e
+          deprecated: true
+        - required: true
+          name: start
+          in: query
+          description: 'Start date of requested time period, inclusive. In the format YYYY-MM-DD'
+          schema:
+            type: string
+            format: date
+        - required: true
+          name: end
+          in: query
+          description: 'End date of requested time period, inclusive. In the format YYYY-MM-DD'
+          schema:
+            type: string
+            format: date
+        - required: true
+          name: resolution
+          in: query
+          description: 'The density of the data points returned, either day or week'
+          schema:
+            type: string
+            enum:
+              - day
+              - week
+        - required: true
+          name: smoothing
+          in: query
+          description: Number of days to smooth data over using a moving average filter
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 3
+              - 5
+              - 7
+      responses:
+        '200':
+          description: A list of model scores containing data for the last 30 days available
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Model scores and metadata
+                properties:
+                  model_list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          format: int32
+                          description: The id of the model
+                        name:
+                          type: string
+                          description: The name of the model
+                  rate_thresholds:
+                    type: object
+                    properties:
+                      rate_thresholds:
+                        type: object
+                        properties:
+                          low_value:
+                            type: object
+                            properties:
+                              label:
+                                type: string
+                                enum:
+                                  - Low epidemic rate
+                              value:
+                                type: number
+                                format: float
+                          medium_value:
+                            type: object
+                            properties:
+                              label:
+                                type: string
+                                enum:
+                                  - Medium epidemic rate
+                              value:
+                                type: number
+                                format: float
+                          high_value:
+                            type: object
+                            properties:
+                              label:
+                                type: string
+                                enum:
+                                  - High epidemic rate
+                              value:
+                                type: number
+                                format: float
+                          very_high_value:
+                            type: object
+                            properties:
+                              label:
+                                type: string
+                                enum:
+                                  - Very high epidemic rate
+                              value:
+                                type: number
+                                format: float
+                  modeldata:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          format: int32
+                          description: The id of the model
+                        name:
+                          type: string
+                          description: The name of the model
+                        has_confidence_interval:
+                          type: boolean
+                          description: Whether the model scores include a confidence interval
+                          default: false
+                        display_model:
+                          type: boolean
+                          description: Whether the model should be displayed automatically
+                          default: false
+                        start_date:
+                          type: string
+                          format: date
+                          description: 'Start date of requested time period, inclusive. In the format YYYY-MM-DD'
+                        end_date:
+                          type: string
+                          format: date
+                          description: 'End date of requested time period, inclusive. In the format YYYY-MM-DD'
+                        average_score:
+                          type: number
+                          format: float
+                          description: Average (mean) score value
+                        data_points:
+                          type: array
+                          description: Model scores
+                          items:
+                            type: object
+                            properties:
+                              score_date:
+                                type: string
+                                format: date
+                                description: Date of the data point
+                              score_value:
+                                type: number
+                                format: float
+                                description: Score value
+                              confidence_interval_lower:
+                                type: number
+                                format: float
+                                description: Lower bound confidence interval
+                              confidence_interval_upper:
+                                type: number
+                                format: float
+                                description: Upper bound confidence interval
+        '404':
+          description: Not found. Model data no longer available
+        '503':
+          description: Resource unavailable
