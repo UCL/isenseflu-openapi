@@ -1,0 +1,27 @@
+modelsAndMetadata:
+  description: A list of model scores containing data for the last 30 days available
+  content:
+    application/json:
+      schema:
+        type: object
+        description: Model scores and metadata
+        properties:
+          model_list:
+            type: array
+            items:
+              $ref: 'schemas.yaml#/modelListItem'
+          rate_thresholds:
+            $ref: 'schemas.yaml#/rateThresholds'
+          modeldata:
+            type: array
+            items:
+              $ref: 'schemas.yaml#/modelInfo'
+
+modelList:
+  description: A list of public models
+  content:
+    application/json:
+      schema:
+        type: array
+        items:
+          $ref: 'schemas.yaml#/modelListItem'

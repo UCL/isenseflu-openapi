@@ -3,56 +3,29 @@ openapi: 3.0.2
 info: 
   title: i-sense flu backend
   description: Backend API for the i-sense flu web app
-  version: 2.0
+  version: v2.0
   
 paths:
   /:
     get:
-      tags:
-        - query-model
-        - default-model
       summary: Returns the scores for the default flu model
       responses:
         '200':
-          description: A list of model scores containing data for the last 30 days available
-          content:
-            application/json:
-              schema:
-                type: object
-                description: Model scores and metadata
-                properties:
-                  model_list:
-                    $ref: 'components/schemas.yaml#/modelListItem'
-                  rate_thresholds:
-                    $ref: 'components/schemas.yaml#/rateThresholds'
-                  modeldata:
-                    type: array
-                    items:
-                      $ref: 'components/schemas.yaml#/modelInfo'
+          $ref: 'components/responses.yaml#/modelsAndMetadata'
         '404':
           description: No public model scores available
         '503':
           description: Resource unavailable
   /models:
     get:
-      tags:
-        - query-model
       summary: Returns a list of public models
       responses:
         '200':
-          description: A list of public models
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: 'components/schemas.yaml#/modelListItem'
+          $ref: 'components/responses.yaml#/modelList'
         '503':
           description: Resource unavailable
   /plink:
     get:
-      tags:
-        - query-model
       summary: Returns the scores and metadata for one or more models in a specific time window
       parameters:
         - $ref: 'components/parameters.yaml#/idRef'
@@ -66,12 +39,12 @@ paths:
         - $ref: 'components/parameters.yaml#/smoothingRef'
           required: true
       responses:
+        '200':
+          $ref: 'components/responses.yaml#/modelsAndMetadata'
         '503':
           description: Resource unavailable
   /scores:
     get:
-      tags:
-        - query-scores
       summary: Returns the scores for one or more models in a specific time window
       parameters:
         - $ref: 'components/parameters.yaml#/idRef'
@@ -87,8 +60,6 @@ paths:
           description: Resource unavailable
   /twlink:
     get:
-      tags:
-        - query-model
       summary: Returns the scores and metadata for a model linked from Twitter
       parameters:
         - $ref: 'components/parameters.yaml#/legacyIdRef'
@@ -102,6 +73,8 @@ paths:
         - $ref: 'components/parameters.yaml#/smoothingRef'
           required: true
       responses:
+        '200':
+          $ref: 'components/responses.yaml#/modelsAndMetadata'
         '503':
           description: Resource unavailable
           
